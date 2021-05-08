@@ -1,0 +1,24 @@
+{
+  "name": "LowImage",
+  "properies": [
+    {
+      "key": "src",
+      "name": "图片地址",
+      "type": "string",
+      "required": true
+    },
+    { 
+      "key": "href",
+      "name": "链接",
+      "type": "string"
+    },
+    {
+      "type": "select",
+      "key": "target",
+      "name": "跳转方式",
+      "options": [
+        { "code": "_blank", "message": "新页面打开" }
+      ]
+    }
+  ]
+}
