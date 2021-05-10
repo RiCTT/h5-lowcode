@@ -1,6 +1,6 @@
 <template>
   <div class="view-wrapper">
-    <div class="template-wrapper">
+    <div class="template-wrapper wrapper-borderline">
       <h4 class="block-header template-header">模板区</h4>
       <div class="component-list">
         <div draggable="true" :data-id="item.name" @dragstart="onDragStart" class="component-item" v-for="item in components" :key="item.name">
@@ -9,41 +9,34 @@
         </div>
       </div>
     </div>
-    <div class="edit-wrapper">
+    <div class="edit-wrapper wrapper-borderline">
       <h4 class="block-header">编辑区</h4>
       <EditArea />
     </div>
-    <!-- <div class="prev-wrapper">
-      <div class="iframe-wrapper">
-        <iframe
-          @drop="onDrop"
-          @dragover="onDragOver"
-          width="375"
-          height="667"
-          scrolling="no"
-          src="http://172.16.20.60:3000/preview?uid=123"
-          frameborder="0"
-        ></iframe>
-      </div>
-    </div> -->
+    <div class="prev-wrapper wrapper-borderline">
+      <h4 class="block-header">预览区</h4>
+      <PreviewArea />
+    </div>
     <div class="props-wrapper">
       <h4 class="block-header">属性区</h4>
       <PropsArea />
     </div>
   </div>
-</template>
+</template> 
 
 <script>
 import { ref } from "vue";
 import useData from './composables/useData.js'
 import EditArea from './components/EditArea/index.vue'
 import PropsArea from './components/PropsArea/index.vue'
+import PreviewArea from './components/PreviewArea/index.vue'
 
 export default {
   name: "App",
   components: {
     EditArea,
-    PropsArea
+    PropsArea,
+    PreviewArea
   },
   setup() {
     const { components } = useData
@@ -61,17 +54,13 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.iframe-wrapper {
-  display: inline-block;
-  width: 378px;
-  height: 669px;
-  border: 1px solid red;
-}
-
 .view-wrapper {
   display: flex;
-  height: 100vh;
   min-height: 667px;
+  height: 100vh;
+  .wrapper-borderline {
+    border-right: 1px solid #f2f2f2;
+  }
 }
 
 .block-header {
@@ -81,18 +70,15 @@ export default {
 }
 
 .template-wrapper {
-  width: 300px;
-  height: 100%;
-  border: 1px solid skyblue;
-  box-sizing: border-box;
-
-}
-
-.prev-wrapper {
   flex: 1;
   height: 100%;
   box-sizing: border-box;
-  border: 1px solid yellow;
+}
+
+.edit-wrapper {
+  flex: 1;
+  min-width: 400px;
+  height: 100%;
 }
 
 .component-list {
@@ -121,13 +107,8 @@ export default {
   }
 }
 
-
 .props-wrapper {
-  width: 400px;
-  height: 100vh;
-  border: 1px solid #f2f2f2;
-  .props-list {
-    
-  }
+  flex: 1;
+  border-right: 1px solid #f2f2f2;
 }
 </style>

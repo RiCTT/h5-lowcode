@@ -17,7 +17,8 @@
       "key": "target",
       "name": "跳转方式",
       "options": [
-        { "code": "_blank", "message": "新页面打开" }
+        { "code": "__blank", "message": "新页面打开" },
+        { "code": "__self", "message": "当前打开" }
       ]
     }
   ]

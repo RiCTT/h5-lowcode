@@ -1,7 +1,7 @@
 <template>
   <!-- 单独做成一个业务组件or路由 -->
-  <div class="preview" @drop="onDrop" @dragover="onDragOver">
-    <component v-for="item in componentList" :key="item.name" :is="item.name"></component>
+  <div class="preview">
+    <component v-for="item in componentList" v-bind="item.attrs" :key="item.name" :is="item.name"></component>
   </div>
 </template>
 
@@ -10,25 +10,16 @@ import { ref } from 'vue'
 export default {
   setup() {
     const componentList = ref([])
-    const onDragStart = (e) => {
-      console.log('start')
-      e.dataTransfer.setData("Text", 123);
-    }
-    const onDragOver = (e) => {
-      e.preventDefault()
-      console.log('onDragOver')
-    }
-    const onDrop = (e) => {
-      e.preventDefault()
-      var data=e.dataTransfer.getData("Text");
+
+    window.addEventListener("message", (message) => {
+      console.log('Receive Message: ', message)
+      const data = JSON.parse(message.data)
+      componentList.value = data
       console.log(data)
-      console.log('drop')
-    }
+    }, false);
+
     return {
       componentList,
-      onDragStart,
-      onDrop,
-      onDragOver
     }
   }
 }

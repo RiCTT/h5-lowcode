@@ -1,10 +1,11 @@
 <template>
-  <a class="low-image" :target="target">
-    <img :src="src" alt="#">
+  <a class="low-image" :href="href" :target="target">
+    <img :src="src" alt="图片" :class="{ 'image-place': !loaded }" @load="handleImageLoaded">
   </a>
 </template>
 
 <script>
+import { reactive, toRefs } from 'vue'
 export default {
   name: 'LowImage',
   props: {
@@ -14,11 +15,26 @@ export default {
     },
     target: {
       type: String,
-      default: '_blank'
+      default: '__blank'
     },
     src: {
       type: String,
       default: ''
+    }
+  },
+  setup() {
+    const data = reactive({
+      loaded: false
+    })
+    const handleImageLoaded = (e) => {
+      data.loaded = true
+    }
+
+    const dataAsRefs = toRefs(data)
+
+    return {
+      ...dataAsRefs,
+      handleImageLoaded
     }
   }
 }
@@ -32,6 +48,14 @@ export default {
   img {
     display: block;
     width: 100%;
+  }
+
+  .image-place {
+    width: 85%;
+    height: 100px;
+    border-radius: 8px;
+    margin: 10px auto;
+    background-color: #f2f2f2;
   }
 }
 </style>

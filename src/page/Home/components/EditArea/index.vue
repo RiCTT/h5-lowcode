@@ -1,17 +1,20 @@
 <template>
   <div class="edit-box" @drop.prevent="onDrop" @dragover.prevent="onDragOver">
-    <component v-for="item in editComponentList" v-bind="item.attrs" @click="handleEditComponentClick(item)" :key="item.name" :is="item.name"></component>
+    <div class="component-wrapper" :class="{ active: item.uid === currentSelectComponent.uid }" v-for="item in editComponentList" :key="item.uid + '-' + item.name" @click.prevent="handleEditComponentClick(item)">
+      <component v-bind="item.attrs" :is="item.name"></component>
+    </div>
   </div>
 </template>
 
 <script>
-import useData from '../../composables/useData.js'
+import { state } from '../../store/index.js'
+import { watch } from 'vue'
 
 let uid = 0
 
 export default {
   setup() {
-    const { components, editComponentList, currentSelectComponent, updateCurrentSelectComponent } = useData
+    const { components, editComponentList, currentSelectComponent } = state
 
     const onDrop = (e) => {
       const componentName = e.dataTransfer.getData("Text");
@@ -28,21 +31,26 @@ export default {
       editComponentList.value.push({ uid: ++uid, name: componentName, props: componentProps, attrs })
     }
 
-    const onDragOver = (e) => {
-      console.log('onDragOver')
-    }
+    const onDragOver = (e) => {}
 
     const handleEditComponentClick = (item) => {
-      console.log(item)
-      updateCurrentSelectComponent(item)
+      currentSelectComponent.value = item
     }
+
+    watch(editComponentList.value, (val) => {
+      console.log('change  ddd ')
+      const iframe = document.getElementById('preview-iframe').contentWindow
+      const data = JSON.stringify(val)
+      iframe.postMessage(data)
+    })
+
+
     return {
       onDrop,
       onDragOver,
       handleEditComponentClick,
-      currentSelectComponent,
-      editComponentList
-    }
+      ...state
+    } 
   } 
 }
 </script>
@@ -59,6 +67,12 @@ export default {
     margin: 0 auto;
     margin-top: 10px;
     border: 1px solid #ddd;
+  }
+}
+
+.component-wrapper {
+  &.active {
+    border: 2px solid skyblue;
   }
 }
 </style>
