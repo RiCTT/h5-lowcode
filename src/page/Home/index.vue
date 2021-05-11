@@ -109,6 +109,7 @@ export default {
 
 .props-wrapper {
   flex: 1;
+  overflow: hidden;
   border-right: 1px solid #f2f2f2;
 }
 </style>

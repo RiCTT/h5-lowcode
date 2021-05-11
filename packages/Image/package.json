@@ -5,20 +5,23 @@
       "key": "src",
       "name": "图片地址",
       "type": "string",
-      "required": true
+      "required": true,
+      "value": "https://misc.aotu.io/JChehe/2017-02-13-2d-collision-detection/rectangle_collision.png"
     },
     { 
       "key": "href",
       "name": "链接",
-      "type": "string"
+      "type": "string",
+      "value": "https://baidu.com"
     },
     {
       "type": "select",
       "key": "target",
       "name": "跳转方式",
+      "value": "__blank",
       "options": [
-        { "code": "__blank", "message": "新页面打开" },
-        { "code": "__self", "message": "当前打开" }
+        { "value": "__blank", "label": "新窗口打开" },
+        { "value": "__self", "label": "当前打开" }
       ]
     }
   ]

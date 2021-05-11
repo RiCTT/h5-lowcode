@@ -8,11 +8,15 @@
 
 <script>
 import { state } from '../../store/index.js'
-import { watch } from 'vue'
+import { watch, ref, reactive } from 'vue'
+import LowInput from '@/components/Input/index.vue'
 
 let uid = 0
 
 export default {
+  components: {
+    LowInput
+  },
   setup() {
     const { components, editComponentList, currentSelectComponent } = state
 
@@ -25,7 +29,7 @@ export default {
         const item = componentProps[index]
         const { key } = item
         console.log(item)
-        attrs[key] = ''
+        attrs[key] = item.value
       })
 
       editComponentList.value.push({ uid: ++uid, name: componentName, props: componentProps, attrs })
@@ -43,7 +47,6 @@ export default {
       const data = JSON.stringify(val)
       iframe.postMessage(data)
     })
-
 
     return {
       onDrop,

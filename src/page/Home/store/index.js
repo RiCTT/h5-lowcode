@@ -8,7 +8,14 @@ Object.keys(modules).forEach((key) => {
   prevComponents.push(describeJson);
 });
 
-const componentModel = { name: '', props: {}, attrs: {} }
+const componentModel = { 
+  name: '', 
+  props: {}, 
+  attrs: {
+    src: '',
+    href: '',
+  } 
+}
 
 export const state = toRefs(reactive({
   components: prevComponents, // 全局可添加的预览组件

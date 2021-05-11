@@ -11,7 +11,7 @@ export default {
   props: {
     href: {
       type: String,
-      default: '#app'
+      default: ''
     },
     target: {
       type: String,
