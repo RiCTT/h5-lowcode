@@ -89,6 +89,7 @@ export default {
     width: 80px;
     background-color: #ddd;
     cursor: move;
+    margin-right: 20px;
 
     .item-thumbnail {
       display: block;

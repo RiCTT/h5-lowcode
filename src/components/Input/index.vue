@@ -5,7 +5,7 @@
 <script>
 import { ElInput } from 'element-plus';
 export default {
-  name: 'LowInput',
+  name: 'SysInput',
   components: {
     [ElInput.name]: ElInput
   },

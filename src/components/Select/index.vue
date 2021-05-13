@@ -12,7 +12,7 @@
 <script>
 import { ElSelect, ElOption } from 'element-plus';
 export default {
-  name: 'LowSelect',
+  name: 'SysSelect',
   props: {
     modelValue: [String, Number, Array, Object],
     options: {

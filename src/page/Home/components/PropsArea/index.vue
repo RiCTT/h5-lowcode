@@ -1,6 +1,15 @@
 <template>
   <div class="props-list-wrapper">
-    <div
+    <div class="props-item">
+      <FormRender
+        v-if="currentSelectComponent && currentSelectComponent.schema"
+        :schema="currentSelectComponent.schema"
+        :formData="currentSelectComponent.formData"
+        :onChange="handleOnChange"
+        @on-change="handleOnChange"
+      />
+    </div>
+    <!-- <div
       class="props-item"
       v-for="item in currentSelectComponent.props"
       :key="item.key"
@@ -8,45 +17,49 @@
       <template v-if="item.type === 'select'">
         <span class="prop-name">{{ item.name }}</span>
         <span class="prop-component">
-          <LowSelect :key="item.key" v-model="currentSelectComponent.attrs[item.key]" :options="item.options" />
+          <SysSelect :key="item.key" v-model="currentSelectComponent.attrs[item.key]" :options="item.options" />
         </span>
       </template>
       <template v-else>
         <span class="prop-name">{{ item.name }}</span>
         <span class="prop-component">
-          <LowInput :key="item.key" v-model="currentSelectComponent.attrs[item.key]" />
+          <SysInput :key="item.key" v-model="currentSelectComponent.attrs[item.key]" />
         </span>
       </template>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 import { reactive, watch, toRefs } from 'vue'
 import { state } from "../../store/index.js";
-import LowSelect from '@/components/Select/index.vue'
-import LowInput from '@/components/Input/index.vue'
+import SysSelect from '@/components/Select/index.vue'
+import SysInput from '@/components/Input/index.vue'
+import FormRender from '../../../../../packages/FormRender/index.jsx'
+
 
 export default {
   components: {
-    LowSelect,
-    LowInput
+    SysSelect,
+    SysInput,
+    FormRender
   },
   setup() {
     const { editComponentList, currentSelectComponent } = state;
-    const data = toRefs(reactive({
-      currentSelect: '',
-      options: [
-        { label: '1', value: 1},
-        { label: '2', value: 2},
-        { label: '3', value: 3}
-      ]
-    }))
+
+    const handleOnChange = (val) => {
+      // console.log(val)
+      console.log('!!! change !!! ')
+      console.log(currentSelectComponent.value)
+      // console.log(currentSelectComponent)
+      // currentSelectComponent.value.formData = val
+      // currentSelectComponent.formData = val
+    }
 
     return {
+      handleOnChange,
       editComponentList,
       currentSelectComponent,
-      ...data
     };
   },
 };

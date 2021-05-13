@@ -1,7 +1,11 @@
 <template>
   <div class="edit-box" @drop.prevent="onDrop" @dragover.prevent="onDragOver">
-    <div class="component-wrapper" :class="{ active: item.uid === currentSelectComponent.uid }" v-for="item in editComponentList" :key="item.uid + '-' + item.name" @click.prevent="handleEditComponentClick(item)">
-      <component v-bind="item.attrs" :is="item.name"></component>
+    <div class="component-wrapper" 
+      :class="{ active: item.uid === currentSelectComponent.uid }" 
+      v-for="item in editComponentList" :key="item.uid + '-' + item.name" 
+      @click.prevent="handleEditComponentClick(item)"
+    >
+      <component v-bind="item.props" :is="item.name"></component>
     </div>
   </div>
 </template>
@@ -9,30 +13,33 @@
 <script>
 import { state } from '../../store/index.js'
 import { watch, ref, reactive } from 'vue'
-import LowInput from '@/components/Input/index.vue'
+// import LowInput from '@/components/Input/index.vue'
 
 let uid = 0
 
 export default {
-  components: {
-    LowInput
-  },
+  // components: {
+  //   LowInput
+  // },
   setup() {
     const { components, editComponentList, currentSelectComponent } = state
 
+    const getDefaultValue = (type) => {
+      const map = {
+        string: '',
+        object: {},
+        array: []
+      }
+      return map[type]
+    }
+
     const onDrop = (e) => {
       const componentName = e.dataTransfer.getData("Text");
-      const componentProps = components.value.find(e => e.name === componentName).properies
-      const attrs = {}
+      console.log(components.value)
+      const dragComponent = components.value.find(e => e.name === componentName)
+      const { schema, formData } = dragComponent
 
-      Object.keys(componentProps).forEach(index => {
-        const item = componentProps[index]
-        const { key } = item
-        console.log(item)
-        attrs[key] = item.value
-      })
-
-      editComponentList.value.push({ uid: ++uid, name: componentName, props: componentProps, attrs })
+      editComponentList.value.push({ uid: ++uid, name: componentName, schema, formData })
     }
 
     const onDragOver = (e) => {}

@@ -18,6 +18,60 @@
 
   参考过其他库，一个正方形的界面，上下左右调整边距，一开始想到margin，margin不会影响背景色等
 
+- 表单渲染（FormRender）
+
+  - 统一所有模板组件schema（如果只是表单组件用schema，其他UI组件混合在一起，逻辑会复杂）
+
+    ```js
+      
+    /** 
+     * 约束：
+     *  最外层schema的type统一为type
+     *  当type为array时，items作为一个object，描述数组项的类型，string or object，或者校验，或者props等属性
+     *  根据type初始化表单数据，解决表单样式显示 + 嵌套对象值的问题
+     */
+
+    /**
+     * 越想越把自己给绕进去了，
+     * package.json本质上只是对组件的描述，如果想单纯依赖这个描述文件还原UI是不可能，是需要自己开发的
+
+    "schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "title": "姓名",
+          "type": "string"
+        },
+        "string": {
+          "title": "string类",
+          "type": "object",
+          "properties": {
+            "stringDate": {
+              "name": "日期",
+              "type": "string"
+            }
+          }
+        },
+        "array": {
+          "title": "array类",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "type": "object",
+            "properties": { ... }
+          }
+        }
+      }
+      "formData": {
+        "name": "",
+        "string": {
+          "stringDate": ""
+        },
+        "array": [""],
+      }
+    },
+    ```
+
 ## 关于代码
 
 - 不用vuex，怎么实现小型store（公共数据仓库），在模板上，组件实例生命周期函数中自动更新

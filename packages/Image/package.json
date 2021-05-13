@@ -1,28 +1,34 @@
 {
   "name": "LowImage",
-  "properies": [
-    {
-      "key": "src",
-      "name": "图片地址",
-      "type": "string",
-      "required": true,
-      "value": "https://misc.aotu.io/JChehe/2017-02-13-2d-collision-detection/rectangle_collision.png"
-    },
-    { 
-      "key": "href",
-      "name": "链接",
-      "type": "string",
-      "value": "https://baidu.com"
-    },
-    {
-      "type": "select",
-      "key": "target",
-      "name": "跳转方式",
-      "value": "__blank",
-      "options": [
-        { "value": "__blank", "label": "新窗口打开" },
-        { "value": "__self", "label": "当前打开" }
-      ]
+  "schema": {
+    "type": "object",
+    "properties": {
+      "src": {
+        "title": "图片地址",
+        "type": "string",
+        "required": true,
+        "default": "https://misc.aotu.io/JChehe/2017-02-13-2d-collision-detection/rectangle_collision.png"
+      },
+      "href": {
+        "title": "链接",
+        "type": "string",
+        "default": "https://baidu.com"
+      },
+      "target": {
+        "title": "跳转方式",
+        "type": "string",
+        "default": "_blank",
+        "ui:widget": "select",
+        "enum": [
+          "_blank",
+          "_self"
+        ],
+        "enumNames": [
+          "新窗口打开",
+          "当前打开"
+        ] 
+      }
     }
-  ]
+  },
+  "formData": {}
 }

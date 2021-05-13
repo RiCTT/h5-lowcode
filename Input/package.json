@@ -1,0 +1,12 @@
+{
+  "name": "LowInput",
+  "properies": [
+    {
+      "key": "value",
+      "name": "输入值",
+      "type": "string",
+      "required": true,
+      "value": "123"
+    }
+  ]
+}

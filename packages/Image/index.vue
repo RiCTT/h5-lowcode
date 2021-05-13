@@ -15,7 +15,7 @@ export default {
     },
     target: {
       type: String,
-      default: '__blank'
+      default: '_blank'
     },
     src: {
       type: String,
