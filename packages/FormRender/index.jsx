@@ -1,10 +1,7 @@
-import { ref, toRefs, watch, reactive } from "vue";
-import { resolve, clone, getValidateList } from "./utils/index.js";
+import { toRefs } from "vue";
+import { resolve } from "./utils/index.js";
 import { widgets, mapping } from "./widgets";
 import Input from './widgets/input.vue'
-
-import { state } from '@/page/Home/store/index.js'
-
 
 export default {
   name: 'FormRender',
@@ -19,7 +16,6 @@ export default {
 
   setup(props, { emit }) {
     if (!props.schema) return null;
-    const { editComponentList, currentSelectComponent } = state
 
     const { formData, schema } = toRefs(props);
 
@@ -29,11 +25,8 @@ export default {
     const handleChange = (result) => {
       let { name, value } = result
       data[name] = value
-      const { uid } = currentSelectComponent.value
-      const target = editComponentList.value.find(item => {
-        return item.uid === uid
-      })
-      target.formData = ref(data)
+      
+      props.onChange(data)
     }
 
     return () => {

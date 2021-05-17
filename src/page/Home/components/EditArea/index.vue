@@ -12,27 +12,13 @@
 
 <script>
 import { state } from '../../store/index.js'
-import { watch, ref, reactive } from 'vue'
-// import LowInput from '@/components/Input/index.vue'
+import { watch } from 'vue'
 import { resolve } from '../../../../../packages/FormRender/utils/index'
 let uid = 0
 
 export default {
-  // components: {
-  //   LowInput
-  // },
   setup() {
     const { components, editComponentList, currentSelectComponent } = state
-
-    const getDefaultValue = (type) => {
-      const map = {
-        string: '',
-        object: {},
-        array: []
-      }
-      return map[type]
-    }
-
     const onDrop = (e) => {
       const componentName = e.dataTransfer.getData("Text");
       console.log(components.value)

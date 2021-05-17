@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { toRefs, ref, watch } from "vue";
+import { toRefs } from "vue";
 import { ElInput } from 'element-plus'
 
 export default {
@@ -34,10 +34,7 @@ export default {
     invalidText: String,
   },
   setup(props, { emit }) {
-    const { schema, name, formData, modelValue } = toRefs(props)
-    // watch(modelValue, (val) => {
-    //   emit('update:modelValue', { name: name.value, value: val })
-    // })
+    const { name } = toRefs(props)
     const handleOnChange = (val) => {
       let data = { name: name.value, value: val }
       props.onChange(data)
