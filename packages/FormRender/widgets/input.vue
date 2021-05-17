@@ -19,7 +19,6 @@ import { toRefs } from "vue";
 import { ElInput } from 'element-plus'
 
 export default {
-  name: 'LowInput',
   components: {
     [ElInput.name]: ElInput
   },

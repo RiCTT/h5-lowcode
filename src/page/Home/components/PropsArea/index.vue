@@ -3,6 +3,7 @@
     <div class="props-item">
       <FormRender
         v-if="currentSelectComponent && currentSelectComponent.schema"
+        :key="currentSelectComponent.uid"
         :schema="currentSelectComponent.schema"
         :formData="currentSelectComponent.formData"
         :onChange="handleOnChange"
@@ -33,7 +34,7 @@ export default {
       const target = editComponentList.value.find(item => {
         return item.uid === uid
       })
-      target.formData = ref(data)
+      target.formData = { ...data }
     }
 
     return {

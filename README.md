@@ -147,3 +147,25 @@
     })
   }
   ```
+
+
+- 给proxy对象中的key赋值一个新的对象，会导致自动更新失败
+
+```js
+  const { selectItem } = toRefs(reactive({
+    selectItem: {
+      data: {
+        a: 123,
+        b: 456
+      }
+    }
+  }))
+
+  // 失效，
+  selectItem.data = { c: 789 }
+
+  // 生效
+  selectItem.data = Object.assign(selectItem.data, { c: 789 })
+  selectItem.data = { ...otherObj } 
+
+```

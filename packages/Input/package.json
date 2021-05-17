@@ -1,0 +1,14 @@
+{
+  "name": "LowInput",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "target": {
+        "title": "文本",
+        "type": "string",
+        "default": "_blank"
+      }
+    }
+  },
+  "formData": {}
+}
