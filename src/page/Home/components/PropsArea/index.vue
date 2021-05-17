@@ -6,7 +6,6 @@
         :schema="currentSelectComponent.schema"
         :formData="currentSelectComponent.formData"
         :onChange="handleOnChange"
-        @on-change="handleOnChange"
       />
     </div>
     <!-- <div
@@ -48,6 +47,7 @@ export default {
     const { editComponentList, currentSelectComponent } = state;
 
     const handleOnChange = (val) => {
+      console.log(val)
       // console.log(val)
       console.log('!!! change !!! ')
       console.log(currentSelectComponent.value)

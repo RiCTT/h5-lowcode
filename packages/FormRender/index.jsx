@@ -1,46 +1,41 @@
-/**
- * props
- *  schema，对组件的描述
- *  formData，表单组件的初始值
- */
-
-/* eslint-disable */
-import { toRefs, watch, reactive } from "vue";
+import { ref, toRefs, watch, reactive } from "vue";
 import { resolve, clone, getValidateList } from "./utils/index.js";
 import { widgets, mapping } from "./widgets";
+import Input from './widgets/input.vue'
+
+import { state } from '@/page/Home/store/index.js'
 
 
 export default {
   name: 'FormRender',
+  components: {
+    [Input.name]: Input
+  },
   props: {
     schema: Object,
     formData: Object,
+    onChange: Function,
   },
 
   setup(props, { emit }) {
     if (!props.schema) return null;
+    const { editComponentList, currentSelectComponent } = state
 
     const { formData, schema } = toRefs(props);
 
-    let data = resolve(props.schema, formData.value);
+    let data = resolve(props.schema, formData.value)
 
 
-    emit("on-change", data);
-    // watch(formData, () => {
-    //   console.log('in watch')
-    //   data = resolve(props.schema, formData.value);
-    //   emit("on-validate", getValidateList(data, props.schema));
-    // });
+    const handleChange = (result) => {
+      let { name, value } = result
+      data[name] = value
+      const { uid } = currentSelectComponent.value
+      const target = editComponentList.value.find(item => {
+        return item.uid === uid
+      })
+      target.formData = ref(data)
+    }
 
-    // watch(schema.value, () => {
-    //   console.log('in watch')
-    //   data = resolve(props.schema, formData.value);
-    //   emit("on-change", data);
-    // });
-
-    const handleChange = (key, val) => {
-      emit("on-change", clone(val));
-    };
     return () => {
       const Field =
         widgets[
@@ -57,8 +52,7 @@ export default {
         <div className="vue-form-render">
           <Field
             schema={props.schema}
-            formData={data}
-            value={data}
+            modelValue={data}
             onChange={handleChange}
           />
         </div>

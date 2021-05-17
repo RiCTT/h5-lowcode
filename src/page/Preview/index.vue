@@ -1,7 +1,7 @@
 <template>
   <!-- 单独做成一个业务组件or路由 -->
   <div class="preview">
-    <component v-for="item in componentList" v-bind="item.attrs" :key="item.name" :is="item.name"></component>
+    <component v-for="item in componentList" v-bind="{ ...item.attrs, ...item.formData }" :key="item.name" :is="item.name"></component>
   </div>
 </template>
 

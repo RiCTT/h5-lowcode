@@ -5,7 +5,7 @@
       v-for="item in editComponentList" :key="item.uid + '-' + item.name" 
       @click.prevent="handleEditComponentClick(item)"
     >
-      <component v-bind="item.props" :is="item.name"></component>
+      <component v-bind="{ ...item.props, ...item.formData }" :is="item.name"></component>
     </div>
   </div>
 </template>
@@ -14,7 +14,7 @@
 import { state } from '../../store/index.js'
 import { watch, ref, reactive } from 'vue'
 // import LowInput from '@/components/Input/index.vue'
-
+import { resolve } from '../../../../../packages/FormRender/utils/index'
 let uid = 0
 
 export default {
@@ -38,8 +38,8 @@ export default {
       console.log(components.value)
       const dragComponent = components.value.find(e => e.name === componentName)
       const { schema, formData } = dragComponent
-
-      editComponentList.value.push({ uid: ++uid, name: componentName, schema, formData })
+      let data = resolve(schema, formData)
+      editComponentList.value.push({ uid: ++uid, name: componentName, schema, formData: data })
     }
 
     const onDragOver = (e) => {}
