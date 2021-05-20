@@ -1,14 +1,8 @@
 <template>
-<TestForm />
   <div class="view-wrapper">
     <div class="template-wrapper wrapper-borderline">
       <h4 class="block-header template-header">模板区</h4>
-      <div class="component-list">
-        <div draggable="true" :data-id="item.name" @dragstart="onDragStart" class="component-item" v-for="item in components" :key="item.name">
-          <span class="item-thumbnail"></span>
-          <span class="item-name">{{item.name}}</span>
-        </div>
-      </div>
+      <TemplateList />
     </div>
     <div class="edit-wrapper wrapper-borderline">
       <h4 class="block-header">编辑区</h4>
@@ -26,12 +20,10 @@
 </template> 
 
 <script>
-import { ref } from "vue";
-import useData from './composables/useData.js'
 import EditArea from './components/EditArea/index.vue'
 import PropsArea from './components/PropsArea/index.vue'
 import PreviewArea from './components/PreviewArea/index.vue'
-import TestForm from '@/template/Form/index.vue'
+import TemplateList from './components/TemplateList/index.vue'
 
 export default {
   name: "App",
@@ -39,18 +31,10 @@ export default {
     EditArea,
     PropsArea,
     PreviewArea,
-    TestForm
+    TemplateList,
   },
   setup() {
-    const { components } = useData
-    const onDragStart = (e) => {
-      const { id } = e.target.dataset
-      e.dataTransfer.setData("Text", id);
-    }
-    
     return {
-      components,
-      onDragStart,
     };
   },
 };
@@ -84,32 +68,6 @@ export default {
   height: 100%;
 }
 
-.component-list {
-  display: flex;
-  padding: 10px 15px;
-
-  .component-item {
-    width: 80px;
-    background-color: #ddd;
-    cursor: move;
-    margin-right: 20px;
-
-    .item-thumbnail {
-      display: block;
-      width: 80%;
-      height: 40px;
-      margin: 4px auto;
-      background-color: #f2f2f2;
-      box-sizing: border-box;
-    }
-
-    .item-name {
-      display: block;
-      text-align: center;
-      color: #999;
-    }
-  }
-}
 
 .props-wrapper {
   flex: 1;

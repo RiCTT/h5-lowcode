@@ -6,10 +6,13 @@
 
 <script>
 import { reactive, toRefs } from 'vue'
-import { InjectPropsListMap } from './index'
+import { InjectPropsListMap, Data, Props } from './index'
 
 
 export default {
+  tplData: { ...Data },
+  tplProps: { ...Props },
+  name: 'TplImage',
   props: {
     ...InjectPropsListMap
   },
@@ -31,6 +34,22 @@ export default {
 }
 </script>
 
-<style>
+<style lang="stylus" scoped>
+.low-image {
+  display: block;
+  width: 100%;
+  
+  img {
+    display: block;
+    width: 100%;
+  }
 
+  .image-place {
+    width: 85%;
+    height: 100px;
+    border-radius: 8px;
+    margin: 10px auto;
+    background-color: #f2f2f2;
+  }
+}
 </style>

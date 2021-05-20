@@ -1,13 +1,7 @@
 <template>
   <div class="props-list-wrapper">
     <div class="props-item">
-      <FormRender
-        v-if="currentSelectComponent && currentSelectComponent.schema"
-        :key="currentSelectComponent.uid"
-        :schema="currentSelectComponent.schema"
-        :formData="currentSelectComponent.formData"
-        :onChange="handleOnChange"
-      />
+      {{currentSelectComponent && currentSelectComponent.tplProps}}
     </div>
   </div>
 </template>

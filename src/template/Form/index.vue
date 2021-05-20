@@ -25,9 +25,12 @@
 <script>
 import { Form, Field, Button } from 'vant'
 import { reactive, toRefs } from "vue";
-import { InjectPropsListMap } from "./index";
+import { InjectPropsListMap, Data, Props } from "./index";
 
 export default {
+  tplData: { ...Data },
+  tplProps: { ...Props },
+  name: 'TplForm',
   components: {
     [Form.name]: Form,
     [Field.name]: Field,

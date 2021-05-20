@@ -5,7 +5,7 @@
       v-for="item in editComponentList" :key="item.uid + '-' + item.name" 
       @click.prevent="handleEditComponentClick(item)"
     >
-      <component v-bind="{ ...item.props, ...item.formData }" :is="item.name"></component>
+      <component v-bind="{ ...item.data }" :is="item.name"></component>
     </div>
   </div>
 </template>
@@ -13,19 +13,16 @@
 <script>
 import { state } from '../../store/index.js'
 import { watch } from 'vue'
-import { resolve } from '../../../../../packages/FormRender/utils/index'
+
 let uid = 0
 
 export default {
   setup() {
-    const { components, editComponentList, currentSelectComponent } = state
+    const { templateList, editComponentList, currentSelectComponent } = state
     const onDrop = (e) => {
       const componentName = e.dataTransfer.getData("Text");
-      console.log(components.value)
-      const dragComponent = components.value.find(e => e.name === componentName)
-      const { schema, formData } = dragComponent
-      let data = resolve(schema, formData)
-      editComponentList.value.push({ uid: ++uid, name: componentName, schema, formData: data })
+      const dragComponent = templateList.value.find(e => e.name === componentName)
+      editComponentList.value.push({ uid: ++uid, ...dragComponent })
     }
 
     const onDragOver = (e) => {}
@@ -35,7 +32,6 @@ export default {
     }
 
     watch(editComponentList.value, (val) => {
-      console.log('change  ddd ')
       const iframe = document.getElementById('preview-iframe').contentWindow
       const data = JSON.stringify(val)
       iframe.postMessage(data)

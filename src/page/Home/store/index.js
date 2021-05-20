@@ -1,24 +1,22 @@
 // 公共数据
 import { reactive, toRefs } from 'vue'
 
-const prevComponents = [];
-const modules = import.meta.globEager("../../../../packages/*/*.json");
+const templateList = []
+const modules = import.meta.globEager("../../../template/*/index.vue");
 Object.keys(modules).forEach((key) => {
-  const describeJson = modules[key].default;
-  prevComponents.push(describeJson);
+  const data = modules[key].default;
+  const { name, tplData, tplProps } = data
+  templateList.push({ name, tplData: { ...tplData }, tplProps })
 });
 
 const componentModel = { 
-  name: '', 
-  props: {}, 
-  attrs: {
-    src: '',
-    href: '',
-  } 
+  name: '',
+  tplData: {},
+  tplProps: {}
 }
 
 export const state = toRefs(reactive({
-  components: prevComponents, // 全局可添加的预览组件
+  templateList,
   editComponentList: [], // 编辑区域当前所有组件
   currentSelectComponent: { ...componentModel } // 当前选中的组件
 }))
