@@ -19,6 +19,13 @@ export default defineConfig({
           resolveComponent: (name) => {
             return `element-plus/lib/${name}`;
           },
+        },
+        {
+          libraryName: 'vant',
+          esModule: true,
+          resolveStyle: (name) => {
+            return `vant/es/${name}/style`;
+          },
         }
       ]
     })

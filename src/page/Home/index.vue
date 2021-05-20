@@ -1,4 +1,5 @@
 <template>
+<TestForm />
   <div class="view-wrapper">
     <div class="template-wrapper wrapper-borderline">
       <h4 class="block-header template-header">模板区</h4>
@@ -30,13 +31,15 @@ import useData from './composables/useData.js'
 import EditArea from './components/EditArea/index.vue'
 import PropsArea from './components/PropsArea/index.vue'
 import PreviewArea from './components/PreviewArea/index.vue'
+import TestForm from '@/template/Form/index.vue'
 
 export default {
   name: "App",
   components: {
     EditArea,
     PropsArea,
-    PreviewArea
+    PreviewArea,
+    TestForm
   },
   setup() {
     const { components } = useData
