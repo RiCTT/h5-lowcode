@@ -5,7 +5,7 @@
       v-for="item in editComponentList" :key="item.uid + '-' + item.name" 
       @click.prevent="handleEditComponentClick(item)"
     >
-      <component v-bind="{ ...item.data }" :is="item.name"></component>
+      <component v-bind="{ ...item.tplData }" :is="item.name"></component>
     </div>
   </div>
 </template>
@@ -22,7 +22,11 @@ export default {
     const onDrop = (e) => {
       const componentName = e.dataTransfer.getData("Text");
       const dragComponent = templateList.value.find(e => e.name === componentName)
-      editComponentList.value.push({ uid: ++uid, ...dragComponent })
+      let { tplProps, tplData } = dragComponent
+      // 解绑每个模板组件实例关系
+      tplProps = JSON.parse(JSON.stringify(tplProps))
+      tplData = JSON.parse(JSON.stringify(tplData))
+      editComponentList.value.push({ uid: ++uid, ...dragComponent, tplProps, tplData })
     }
 
     const onDragOver = (e) => {}

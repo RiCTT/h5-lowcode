@@ -6,7 +6,7 @@ const modules = import.meta.globEager("../../../template/*/index.vue");
 Object.keys(modules).forEach((key) => {
   const data = modules[key].default;
   const { name, tplData, tplProps } = data
-  templateList.push({ name, tplData: { ...tplData }, tplProps })
+  templateList.push({ name, tplData, tplProps })
 });
 
 const componentModel = { 

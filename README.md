@@ -189,3 +189,28 @@
   selectItem.data = { ...otherObj } 
 
 ```
+
+- 关注源码实现的部分
+
+  - 公共state，reactive包裹导出，在引入的地方toRefs，引用的地方是怎么保持更新追踪的
+
+    ```js
+    export const state = reactive({
+      count: 1
+    })
+
+    import { state } from '../xx.js'
+    const { count } = toRefs(state)
+    ```
+  
+  - 同上，如果多个文件toRefs，state是包裹了很多层吗
+
+    ```js
+    // a.js
+    const { count } = toRefs(state)
+    // b.js
+    const { count } = toRefs(state)
+
+    // state还是它原来的样子吗
+    ```
+
