@@ -3,7 +3,7 @@
     <div class="props-item">
       <el-form ref="elForm" :model="model" :rules="rules" label-position="top" label-width="100px">
         <el-form-item v-for="(item, key) in currentSelectComponent.tplProps" :key="key" :prop="key" :label="item.title">
-          <component :is="getComponentName(item.ui)" v-model="currentSelectComponent.tplData[key]" :describe="item" :key="key + item.title">
+          <component :is="getComponentName(item.ui)" v-model="currentSelectComponent.tplData[key]" :describe="item">
           </component>
         </el-form-item>
         <el-form-item style="text-align: center">

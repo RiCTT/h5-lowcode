@@ -7,8 +7,7 @@ function _clone(data) {
     })
     return result
   }
-
-  if (Object.prototype.toString === '[Object object]') {
+  if (Object.prototype.toString.call(data) === '[object Object]') {
     const result = {}
     Object.keys(data).forEach(key => {
       result[key] = _clone(data[key])
