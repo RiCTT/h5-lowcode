@@ -13,6 +13,7 @@
 <script>
 import { state } from '../../store/index.js'
 import { watch } from 'vue'
+import clone from '@/utils/clone'
 
 let uid = 0
 
@@ -24,8 +25,10 @@ export default {
       const dragComponent = templateList.value.find(e => e.name === componentName)
       let { tplProps, tplData } = dragComponent
       // 解绑每个模板组件实例关系
-      tplProps = JSON.parse(JSON.stringify(tplProps))
-      tplData = JSON.parse(JSON.stringify(tplData))
+      // tplProps = JSON.parse(JSON.stringify(tplProps))
+      // tplData = JSON.parse(JSON.stringify(tplData))
+      tplProps = clone(tplProps)
+      tplData = clone(tplData)
       editComponentList.value.push({ uid: ++uid, ...dragComponent, tplProps, tplData })
     }
 

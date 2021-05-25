@@ -9,14 +9,12 @@ Object.keys(modules).forEach((key) => {
   templateList.push({ name, tplData, tplProps })
 });
 
-const componentModel = { 
-  name: '',
-  tplData: {},
-  tplProps: {}
-}
-
 export const state = toRefs(reactive({
   templateList,
   editComponentList: [], // 编辑区域当前所有组件
-  currentSelectComponent: { ...componentModel } // 当前选中的组件
+  currentSelectComponent: {
+    uid: null,
+    tplData: {},
+    tplProps: {}
+  } // 当前选中的组件
 }))

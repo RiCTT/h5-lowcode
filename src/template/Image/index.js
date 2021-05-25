@@ -2,7 +2,19 @@ const Props = {
   src: {
     title: '图片地址',
     type: 'string',
-    ui: 'input'
+    ui: 'input',
+    required: true,
+    rules: [
+      { 
+        message: '图片地址格式不正确', 
+        validator: (rules, value, cb) => {
+          if (/123$/.test(value)) {
+            return cb(new Error('填写错误'))
+          }
+          cb()
+        }
+      }
+    ]
   },
   href: {
     title: '跳转链接',
@@ -12,7 +24,9 @@ const Props = {
   target: {
     title: '跳转方式',
     type: 'string',
-    ui: 'select'
+    ui: 'select',
+    enumValue: ['__blank', '__self'],
+    enumLabel: ['空白页打开', '当前打开']
   }
 }
 

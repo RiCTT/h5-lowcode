@@ -92,6 +92,19 @@
 
   ```
 
+- 【调试技巧】
+
+  用了elForm表单的校验一直走不到validate回调，这时候需要调试，但是直接在源码里面打debugger是进不到的，需要改变引入包的方式
+
+  ```js
+  // 这种引入方式会将引入的包整体打包作为一个压缩后的包使用
+  import { ElForm } from 'element-plus'
+
+  // 引用到实际源码地址，修改源码需要重新启动项目，可以打log，debugger（控制台sources栏也可以）
+  import ElForm from 'element-plus/packages/.../...vue' 
+  ```
+
+
 ## 关于代码
 
 - 不用vuex，怎么实现小型store（公共数据仓库），在模板上，组件实例生命周期函数中自动更新

@@ -1,64 +1,85 @@
 <template>
   <div class="props-list-wrapper">
     <div class="props-item">
-      <div class="item-wrapper" v-for="(item, key) in currentSelectComponent.tplProps" :key="key">
-        <component :is="getComponentName(item.ui)" v-model="currentSelectComponent.tplData[key]">
-          {{key}}
-          <template v-if="item.ui === 'select'">
-            <el-option label="1" value="1"></el-option>
-          </template>
-        </component>
-      </div>
+      <el-form ref="elForm" :model="model" :rules="rules" label-position="top" label-width="100px">
+        <el-form-item v-for="(item, key) in currentSelectComponent.tplProps" :key="key" :prop="key" :label="item.title">
+          <component :is="getComponentName(item.ui)" v-model="currentSelectComponent.tplData[key]" :describe="item" :key="key + item.title">
+          </component>
+        </el-form-item>
+        <el-form-item style="text-align: center">
+          <el-button type="primary" @click="onSubmit">保存页面</el-button>
+        </el-form-item>
+      </el-form>
     </div>
   </div>
 </template>
 
 <script>
-import { reactive, watch, toRefs, ref } from 'vue'
+import { reactive, watch, toRefs, ref, onMounted } from 'vue'
 import { state } from "../../store/index.js";
-import SysSelect from '@/components/Select/index.vue'
-import SysInput from '@/components/Input/index.vue'
-import FormRender from '../../../../../packages/FormRender/index.jsx'
-import { ElForm, ElFormItem, ElInput, ElSelect, ElOption } from 'element-plus'
+import {  ElForm, ElFormItem, ElButton } from 'element-plus'
+import wdInput from './widgets/input/index.vue'
+import wdSelect from './widgets/select/index.vue'
 
 export default {
   components: {
-    SysSelect,
-    SysInput,
-    FormRender,
+    wdInput,
+    wdSelect,
     [ElForm.name]: ElForm, 
     [ElFormItem.name]: ElFormItem,
-    [ElInput.name]: ElInput,
-    [ElSelect.name]: ElSelect,
-    [ElOption.name]: ElOption
+    [ElButton.name]: ElButton
   },
   setup() {
-    const { editComponentList, currentSelectComponent } = state;
-
-    const handleOnChange = (data) => {
-      const { uid } = currentSelectComponent.value
-      const target = editComponentList.value.find(item => {
-        return item.uid === uid
-      })
-      target.formData = { ...data }
-    }
+    const rules = ref({})
+    const model = ref({})
+    const elForm = ref(null)
+    const { currentSelectComponent } = state;
 
     const getComponentName = (ui) => {
       console.log(ui)
       switch(ui) {
         case 'input':
-          return 'el-input'
+          return 'wd-input'
         case 'select':
-          return 'el-select'
-        default:
-          return 'el-input'
+          return 'wd-select'
       }
     }
+
+    watch(() => currentSelectComponent.value.tplProps, (val) => {
+      let result = {}
+      Object.keys(val).forEach(key => {
+        const current = val[key]
+        const { required, rules } = current 
+        const totalRules = []
+        if (required) {
+          totalRules.push({ required: true, message: '必填项' })
+        }
+        if (rules && rules.length) {
+          totalRules.push(...rules)
+        }
+        result[key] = totalRules
+      })
+      rules.value = result
+    })
+
+    watch(() => currentSelectComponent.value.tplData, (val) => {
+      model.value = val
+    })
+
+    const onSubmit = () => {
+      if (!elForm.value) return
+      console.log('validate !')
+      elForm.value.validate((valid) => {
+        console.log('提交表单')
+      })
+    }
     return {
-      handleOnChange,
-      editComponentList,
       currentSelectComponent,
-      getComponentName
+      getComponentName,
+      model,
+      rules,
+      elForm,
+      onSubmit
     };
   },
 };
@@ -72,8 +93,6 @@ export default {
 }
 
 .props-item {
-  // display: flex;
-  align-items: center;
   overflow: hidden;
   margin-bottom: 20px;
   font-size: 14px;
