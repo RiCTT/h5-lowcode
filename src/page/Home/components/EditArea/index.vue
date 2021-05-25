@@ -70,8 +70,22 @@ export default {
 }
 
 .component-wrapper {
+  position: relative;
+  border: 2px solid transparent;
+  
   &.active {
     border: 2px solid skyblue;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    cursor: pointer;
   }
 }
 </style>
