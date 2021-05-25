@@ -18,13 +18,19 @@
 import { reactive, watch, toRefs, ref, onMounted } from 'vue'
 import { state } from "../../store/index.js";
 import {  ElForm, ElFormItem, ElButton } from 'element-plus'
-import wdInput from './widgets/input/index.vue'
-import wdSelect from './widgets/select/index.vue'
+
+const componentList = import.meta.globEager("./widgets/*/index.{vue,jsx}");
+const widgets = {}
+Object.keys(componentList).forEach(key => {
+  const wd = componentList[key].default
+  const nameList = key.split('/')
+  const name = nameList[nameList.length - 2]
+  widgets[`wd-${name}`] = wd
+})
 
 export default {
   components: {
-    wdInput,
-    wdSelect,
+    ...widgets,
     [ElForm.name]: ElForm, 
     [ElFormItem.name]: ElFormItem,
     [ElButton.name]: ElButton
@@ -42,6 +48,8 @@ export default {
           return 'wd-input'
         case 'select':
           return 'wd-select'
+        case 'form:controls':
+          return 'wd-form-controls'
       }
     }
 
