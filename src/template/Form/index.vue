@@ -12,6 +12,17 @@
           :is="e.ui"
           v-bind="{ ...e }"
         ></component>
+        <template v-else-if="e.ui === 'van-datetime-picker'">
+          <van-field v-model="model[e.key]" readonly clickable @click="showPicker = true" :rules="e.rules" :label="e.label">
+          </van-field>
+          <van-popup v-model:show="showPicker" position="bottom">
+            <van-datetime-picker
+              :type="e.type"
+              @confirm="onConfirmTimePicker(e.key, $event)"
+              @cancel="showPicker = false"
+            />
+          </van-popup>
+        </template>
       </template>
       <div style="margin: 16px">
         <van-button round block type="primary" native-type="submit">
@@ -23,7 +34,7 @@
 </template>
 
 <script>
-import { Form, Field, Button } from 'vant'
+import { Form, Field, Popup, Button, DatetimePicker, Switch, Checkbox } from 'vant'
 import { reactive, toRefs } from "vue";
 import { InjectPropsListMap, Data, Props } from "./index";
 import axios from 'axios'
@@ -35,7 +46,11 @@ export default {
   components: {
     [Form.name]: Form,
     [Field.name]: Field,
-    [Button.name]: Button
+    [Button.name]: Button,
+    [DatetimePicker.name]: DatetimePicker,
+    [Switch.name]: Switch,
+    [Checkbox.name]: Checkbox,
+    [Popup.name]: Popup,
   },
   props: {
     ...InjectPropsListMap,
@@ -43,7 +58,8 @@ export default {
   setup(props) {
     const { env, url } = toRefs(props)
     const data = reactive({
-      model: {}
+      model: {},
+      showPicker: false
     });
     const dataAsRefs = toRefs(data);
 
@@ -58,9 +74,18 @@ export default {
         })
     }
 
+    const onConfirmTimePicker = (key, val) => {
+      if (typeof val === 'object') {
+        val = val.toLocaleDateString()
+      }
+      data.model[key] = val
+      data.showPicker = false
+    }
+
     return {
       ...dataAsRefs,
-      onSubmit
+      onSubmit,
+      onConfirmTimePicker
     };
   },
 };

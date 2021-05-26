@@ -16,11 +16,6 @@ const Props = {
     type: 'array',
     ui: 'form:controls'
   },
-  // rules: {
-  //   title: '校验规则',
-  //   type: 'array',
-  //   ui: 'form:rules'
-  // }
 }
 
 const Data = {

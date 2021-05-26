@@ -17,6 +17,11 @@
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
       </el-form-item>
+      <el-form-item v-if="showTypePicker" prop="type" label="组件类型" required>
+        <el-select v-model="model.type"  placeholder="组件的具体属性，如password、time、timerange...">
+          <el-option v-for="item in typeOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item prop="placeholder" label="占位符">
         <el-input v-model="model.placeholder" placeholder="输入框的默认提示文本内容" />
       </el-form-item>
@@ -35,6 +40,20 @@
 import { toRefs, ref, watch, computed } from 'vue'
 import { ElButton, ElDialog, ElForm, ElFormItem, ElInput, ElSelect, ElOption } from 'element-plus'
 import { UPDATE_MODEL_EVENT } from '@/utils/constants.js'
+
+const TEXT_TYPE_OPS = [
+  { label: '普通文本', value: 'text' },
+  { label: '密码', value: 'password' }
+]
+
+const PICKER_TYPE_OPS = [
+  { label: '年月日', value: 'date' },
+  { label: '年月', value: 'year-month' },
+  { label: '月日', value: 'month-day' },
+  { label: '时间', value: 'time' },
+  { label: '完整时间', value: 'datetime' },
+  { label: '年月日小时', value: 'datehour' }
+]
 
 export default {
   components: {
@@ -76,9 +95,25 @@ export default {
     const rules = ref({})
     const options = ref([
       { label: '普通文本框', value: 'van-field' },
+      { label: '开关', value: 'van-switch' },
+      { label: '复选框', value: 'van-checkbox' },
+      { label: '时间选择器', value: 'van-datetime-picker' }
     ])
+    const typeOptions = ref(TEXT_TYPE_OPS)
     
     const isCreate = computed(() => type.value === 'create')
+    const showTypePicker = computed(() => {
+      let ui = model.value.ui
+      console.log(ui)
+      return ui && ['van-field', 'van-datetime-picker'].includes(ui)
+    })
+
+    watch(() => model.value.ui, (val) => {
+      console.log('ui', val)
+      if (val === 'van-datetime-picker') {
+        typeOptions.value = PICKER_TYPE_OPS
+      }
+    })
 
     watch(form, (val) => {
       model.value = { ...val }
@@ -107,7 +142,9 @@ export default {
       model,
       rules,
       options,
-      isCreate
+      typeOptions,
+      isCreate,
+      showTypePicker
     }
   }
 };
