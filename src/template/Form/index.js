@@ -2,7 +2,9 @@ const Props = {
   env: {
     title: 'API环境',
     type: 'string',
-    ui: 'select'
+    ui: 'select',
+    enumLabel: ['测试环境1', '测试环境2', '测试环境3'],
+    enumValue: ['https://test.com', 'https://test2.com', 'localhost']
   },
   url: {
     title: 'API地址',
@@ -14,15 +16,15 @@ const Props = {
     type: 'array',
     ui: 'form:controls'
   },
-  rules: {
-    title: '校验规则',
-    type: 'array',
-    ui: 'form:rules'
-  }
+  // rules: {
+  //   title: '校验规则',
+  //   type: 'array',
+  //   ui: 'form:rules'
+  // }
 }
 
 const Data = {
-  env: 'https://test-boss.com',
+  env: 'https://test.com',
   url: '/boss/form-action.do',
   items: [
     {
@@ -30,7 +32,7 @@ const Data = {
       type: 'text', // tel, digit, number, textarea, password
       label: '账户',
       placeholder: '',
-      rules: [],
+      rules: [{ required: true, message: '请填写用户名' }],
       disabled: false,
       ui: 'van-field',
     },
@@ -39,7 +41,7 @@ const Data = {
       type: 'password',
       label: '文本',
       placeholder: '',
-      rules: [],
+      rules: [{ required: true, message: '请填写密码' }],
       disabled: false,
       ui: 'van-field',
     }

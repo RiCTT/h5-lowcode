@@ -39,7 +39,7 @@ export default {
     const rules = ref({})
     const model = ref({})
     const elForm = ref(null)
-    const { currentSelectComponent } = state;
+    const { currentSelectComponent, editComponentList } = state;
 
     const getComponentName = (ui) => {
       console.log(ui)
@@ -76,9 +76,10 @@ export default {
 
     const onSubmit = () => {
       if (!elForm.value) return
-      console.log('validate !')
       elForm.value.validate((valid) => {
-        console.log('提交表单')
+        console.log(valid)
+        console.log('提交表单数据为：')
+        console.log(JSON.stringify(editComponentList.value))
       })
     }
     return {

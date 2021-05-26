@@ -8,7 +8,7 @@
         <component
           v-if="e.ui === 'van-field'"
           v-model="model[e.key]"
-          :rules="model[e.rules]"
+          :rules="e.rules"
           :is="e.ui"
           v-bind="{ ...e }"
         ></component>
@@ -26,6 +26,7 @@
 import { Form, Field, Button } from 'vant'
 import { reactive, toRefs } from "vue";
 import { InjectPropsListMap, Data, Props } from "./index";
+import axios from 'axios'
 
 export default {
   tplData: { ...Data },
@@ -42,20 +43,19 @@ export default {
   setup(props) {
     const { env, url } = toRefs(props)
     const data = reactive({
-      model: {
-        username: '',
-        password: ''
-      },
-      rules: {
-        username: [{ required: true, message: '请填写用户名' }],
-        password: [{ required: true, message: '请填写密码' }]
-      },
+      model: {}
     });
     const dataAsRefs = toRefs(data);
 
     const onSubmit = (e) => {
-      console.log(env)
-      console.log(url)
+      const host = env.value + url.value
+      console.log('[Request Host]:', host)
+      console.log('[Request Model]:', data.model)
+      axios.get(host, { params: data.model })
+        .then(res => {
+          console.log('[Request Result]:')
+          console.log(res)
+        })
     }
 
     return {
