@@ -4,20 +4,32 @@
       <template
         v-for="(e) in items"
       >
-        <component
+        <van-field
           v-if="e.ui === 'van-field'"
           v-model="model[e.key]"
           :rules="e.rules"
           :is="e.ui"
           v-bind="{ ...e }"
           :key="e.key"
-        ></component>
-        <template v-else-if="e.ui === 'van-datetime-picker'">
-          <van-field v-model="model[e.key]" :key="e.key" readonly clickable @click="onOpenPicker(e)" :rules="e.rules" :label="e.label">
-          </van-field>
-        </template>
+        />
+        <van-field
+          v-else-if="clickableList.includes(e.ui)"
+          v-model="model[e.key]"
+          readonly
+          clickable
+          @click="onOpenPicker(e)"
+          :rules="e.rules"
+          :label="e.label"
+          :key="e.key"
+        />
+        <CheckboxGroup
+          v-model="model[e.key]"
+          v-else-if="e.ui === 'van-checkbox-group'"
+          v-bind="e"
+          :key="e.key"
+        />
       </template>
-      <!-- 统一的弹框选择 -->
+      <!-- 统一的选择弹框 -->
       <van-popup v-model:show="picker.show" position="bottom">
         <van-datetime-picker
           :type="picker.type"
@@ -36,15 +48,17 @@
 
 <script>
 import { Form, Field, Popup, Button, DatetimePicker, Switch, Checkbox } from 'vant'
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs, ref } from 'vue'
 import { InjectPropsListMap, Data, Props } from './index'
 import axios from 'axios'
+import CheckboxGroup from './checkbox-group.vue'
 
 export default {
   tplData: { ...Data },
   tplProps: { ...Props },
   name: 'TplForm',
   components: {
+    CheckboxGroup,
     [Form.name]: Form,
     [Field.name]: Field,
     [Button.name]: Button,
@@ -67,6 +81,7 @@ export default {
       }
     })
     const dataAsRefs = toRefs(data)
+    const clickableList = ref(['van-datetime-picker'])
 
     const onSubmit = (e) => {
       const host = env.value + url.value
@@ -105,7 +120,8 @@ export default {
       onSubmit,
       onConfirmPicker,
       onCancelPicker,
-      onOpenPicker
+      onOpenPicker,
+      clickableList
     }
   }
 }

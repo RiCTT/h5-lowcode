@@ -48,6 +48,16 @@ const Data = {
       rules: [],
       disabled: false,
       ui: 'van-datetime-picker'
+    },
+    {
+      key: 'group',
+      type: 'group',
+      label: '群组',
+      placeholder: '',
+      rules: [],
+      disabled: false,
+      choice: [],
+      ui: 'van-checkbox-group'
     }
   ]
 }
