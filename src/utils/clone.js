@@ -18,7 +18,6 @@ function _clone(data) {
   return data
 }
 
-
 export default function clone(data) {
   return _clone(data)
 }

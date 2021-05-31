@@ -35,7 +35,6 @@
   </el-dialog>
 </template>
 
-
 <script>
 import { toRefs, ref, watch, computed } from 'vue'
 import { ElButton, ElDialog, ElForm, ElFormItem, ElInput, ElSelect, ElOption } from 'element-plus'
@@ -63,7 +62,7 @@ export default {
     [ElDialog.name]: ElDialog,
     [ElButton.name]: ElButton,
     [ElSelect.name]: ElSelect,
-    [ElOption.name]: ElOption,
+    [ElOption.name]: ElOption
   },
   props: {
     title: {
@@ -79,16 +78,16 @@ export default {
     },
     form: {
       type: Object,
-      default: false,
+      default: false
     },
     type: {
       // edit create
       type: String,
       default: 'edit'
-    },
+    }
   },
   emits: ['add', 'edit', UPDATE_MODEL_EVENT],
-  setup(props, ctx) {
+  setup (props, ctx) {
     const { modelValue, form, type } = toRefs(props)
     const dialogVisible = ref(modelValue.value)
     const model = ref({})
@@ -100,10 +99,10 @@ export default {
       { label: '时间选择器', value: 'van-datetime-picker' }
     ])
     const typeOptions = ref(TEXT_TYPE_OPS)
-    
+
     const isCreate = computed(() => type.value === 'create')
     const showTypePicker = computed(() => {
-      let ui = model.value.ui
+      const ui = model.value.ui
       console.log(ui)
       return ui && ['van-field', 'van-datetime-picker'].includes(ui)
     })

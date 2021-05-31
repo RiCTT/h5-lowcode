@@ -4,18 +4,16 @@ import router from './router'
 import './style/reset.css'
 import './style/index.css'
 import './utils/windowResize.js'
-import FormRender from '../packages/FormRender/index.jsx'
-import { widgets } from '../packages/FormRender/widgets/index.jsx'
 
 const app = createApp(App)
 
 const registerComponents = (app) => {
-  const templateList = import.meta.globEager("./template/*/index.{vue,jsx}");
+  const templateList = import.meta.globEager('./template/*/index.{vue,jsx}')
   Object.keys(templateList).forEach((key) => {
-    const component = templateList[key].default;
+    const component = templateList[key].default
     const { name } = component
     app.component(name, component)
-  });
+  })
 
   // const modules = import.meta.globEager("../packages/*/index.{vue,jsx}");
   // Object.keys(modules).forEach((key) => {

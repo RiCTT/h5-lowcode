@@ -5,8 +5,8 @@ const Props = {
     ui: 'input',
     required: true,
     rules: [
-      { 
-        message: '图片地址格式不正确', 
+      {
+        message: '图片地址格式不正确',
         validator: (rules, value, cb) => {
           if (/123$/.test(value)) {
             return cb(new Error('填写错误'))

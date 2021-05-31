@@ -2,12 +2,12 @@
 import { reactive, toRefs } from 'vue'
 
 const templateList = []
-const modules = import.meta.globEager("../../../template/*/index.vue");
+const modules = import.meta.globEager('../../../template/*/index.vue')
 Object.keys(modules).forEach((key) => {
-  const data = modules[key].default;
+  const data = modules[key].default
   const { name, tplData, tplProps } = data
   templateList.push({ name, tplData, tplProps })
-});
+})
 
 export const state = toRefs(reactive({
   templateList,

@@ -15,7 +15,7 @@ const Props = {
     title: '表单控件',
     type: 'array',
     ui: 'form:controls'
-  },
+  }
 }
 
 const Data = {
@@ -29,7 +29,7 @@ const Data = {
       placeholder: '',
       rules: [{ required: true, message: '请填写用户名' }],
       disabled: false,
-      ui: 'van-field',
+      ui: 'van-field'
     },
     {
       key: 'password',
@@ -38,7 +38,7 @@ const Data = {
       placeholder: '',
       rules: [{ required: true, message: '请填写密码' }],
       disabled: false,
-      ui: 'van-field',
+      ui: 'van-field'
     }
   ]
 }
@@ -52,7 +52,7 @@ Object.keys(Props).forEach(key => {
     default: defaultData
   }
 })
-tempObj['model'] = {
+tempObj.model = {
   account: '',
   password: ''
 }

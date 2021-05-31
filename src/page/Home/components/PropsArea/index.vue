@@ -16,10 +16,10 @@
 
 <script>
 import { reactive, watch, toRefs, ref, onMounted } from 'vue'
-import { state } from "../../store/index.js";
-import {  ElForm, ElFormItem, ElButton } from 'element-plus'
+import { state } from '../../store/index.js'
+import { ElForm, ElFormItem, ElButton } from 'element-plus'
 
-const componentList = import.meta.globEager("./widgets/*/index.{vue,jsx}");
+const componentList = import.meta.globEager('./widgets/*/index.{vue,jsx}')
 const widgets = {}
 Object.keys(componentList).forEach(key => {
   const wd = componentList[key].default
@@ -31,7 +31,7 @@ Object.keys(componentList).forEach(key => {
 export default {
   components: {
     ...widgets,
-    [ElForm.name]: ElForm, 
+    [ElForm.name]: ElForm,
     [ElFormItem.name]: ElFormItem,
     [ElButton.name]: ElButton
   },
@@ -39,11 +39,10 @@ export default {
     const rules = ref({})
     const model = ref({})
     const elForm = ref(null)
-    const { currentSelectComponent, editComponentList } = state;
+    const { currentSelectComponent, editComponentList } = state
 
     const getComponentName = (ui) => {
-      console.log(ui)
-      switch(ui) {
+      switch (ui) {
         case 'input':
           return 'wd-input'
         case 'select':
@@ -54,10 +53,10 @@ export default {
     }
 
     watch(() => currentSelectComponent.value.tplProps, (val) => {
-      let result = {}
+      const result = {}
       Object.keys(val).forEach(key => {
         const current = val[key]
-        const { required, rules } = current 
+        const { required, rules } = current
         const totalRules = []
         if (required) {
           totalRules.push({ required: true, message: '必填项' })
@@ -89,9 +88,9 @@ export default {
       rules,
       elForm,
       onSubmit
-    };
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="stylus" scoped>
