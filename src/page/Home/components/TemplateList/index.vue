@@ -8,14 +8,14 @@
 </template>
 
 <script>
-import { state } from "../../store/index.js";
+import { state } from '../../store/index.js'
 
 export default {
   setup() {
     const { templateList } = state
     const onDragStart = (e) => {
       const { id } = e.target.dataset
-      e.dataTransfer.setData("Text", id);
+      e.dataTransfer.setData('Text', id)
     }
     return {
       templateList,

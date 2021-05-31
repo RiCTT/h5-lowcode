@@ -12,11 +12,11 @@
     <div>
       <el-button type="primary" @click="addFormItem">新增表单项</el-button>
     </div>
-    <FormEditModal 
-      v-model="modalVisible" 
-      :type="modalType" 
-      :form="currentEditFormItem" 
-      title="编辑组件属性" 
+    <FormEditModal
+      v-model="modalVisible"
+      :type="modalType"
+      :form="currentEditFormItem"
+      title="编辑组件属性"
       width="500px"
       @add="handleOnAdd"
       @edit="handleOnEdit"
@@ -97,7 +97,6 @@ export default {
 
     return {
       formList,
-      describe,
       modalVisible,
       addFormItem,
       modalType,

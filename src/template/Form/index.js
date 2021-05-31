@@ -39,6 +39,15 @@ const Data = {
       rules: [{ required: true, message: '请填写密码' }],
       disabled: false,
       ui: 'van-field'
+    },
+    {
+      key: 'time',
+      type: 'time',
+      label: '报名时间',
+      placeholder: '',
+      rules: [],
+      disabled: false,
+      ui: 'van-datetime-picker'
     }
   ]
 }

@@ -1,8 +1,8 @@
 <template>
   <div class="edit-box" @drop.prevent="onDrop" @dragover.prevent="onDragOver">
-    <div class="component-wrapper" 
-      :class="{ active: item.uid === currentSelectComponent.uid }" 
-      v-for="item in editComponentList" :key="item.uid + '-' + item.name" 
+    <div class="component-wrapper"
+      :class="{ active: item.uid === currentSelectComponent.uid }"
+      v-for="item in editComponentList" :key="item.uid + '-' + item.name"
       @click.prevent="handleEditComponentClick(item)"
     >
       <component v-bind="{ ...item.tplData }" :is="item.name"></component>
@@ -21,7 +21,7 @@ export default {
   setup() {
     const { templateList, editComponentList, currentSelectComponent } = state
     const onDrop = (e) => {
-      const componentName = e.dataTransfer.getData("Text");
+      const componentName = e.dataTransfer.getData('Text')
       const dragComponent = templateList.value.find(e => e.name === componentName)
       let { tplProps, tplData } = dragComponent
       // 解绑每个模板组件实例关系
@@ -49,8 +49,8 @@ export default {
       onDragOver,
       handleEditComponentClick,
       ...state
-    } 
-  } 
+    }
+  }
 }
 </script>
 
@@ -72,7 +72,7 @@ export default {
 .component-wrapper {
   position: relative;
   border: 2px solid transparent;
-  
+
   &.active {
     border: 2px solid skyblue;
   }
