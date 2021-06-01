@@ -32,7 +32,15 @@
       <!-- 统一的选择弹框 -->
       <van-popup v-model:show="picker.show" position="bottom">
         <van-datetime-picker
+          v-if="picker && picker.type"
           :type="picker.type"
+          @confirm="onConfirmTimePicker(picker.key, $event)"
+          @cancel="onCancelPicker"
+        />
+        <van-picker
+          v-if="picker.columns && picker.columns.length"
+          :columns="picker.columns"
+          :columns-field-names="picker.columnsFieldNames"
           @confirm="onConfirmPicker(picker.key, $event)"
           @cancel="onCancelPicker"
         />
@@ -47,7 +55,7 @@
 </template>
 
 <script>
-import { Form, Field, Popup, Button, DatetimePicker, Switch, Checkbox } from 'vant'
+import { Form, Field, Popup, Button, DatetimePicker, Switch, Checkbox, Picker } from 'vant'
 import { reactive, toRefs, ref } from 'vue'
 import { InjectPropsListMap, Data, Props } from './index'
 import axios from 'axios'
@@ -65,7 +73,8 @@ export default {
     [DatetimePicker.name]: DatetimePicker,
     [Switch.name]: Switch,
     [Checkbox.name]: Checkbox,
-    [Popup.name]: Popup
+    [Popup.name]: Popup,
+    [Picker.name]: Picker
   },
   props: {
     ...InjectPropsListMap
@@ -77,11 +86,17 @@ export default {
       picker: {
         show: false,
         key: null,
-        type: ''
+        type: '',
+        columns: [],
+        columnsFieldNames: {
+          text: 'label',
+          values: 'values',
+          children: 'children'
+        }
       }
     })
     const dataAsRefs = toRefs(data)
-    const clickableList = ref(['van-datetime-picker'])
+    const clickableList = ref(['van-datetime-picker', 'van-picker'])
 
     const onSubmit = (e) => {
       const host = env.value + url.value
@@ -95,13 +110,20 @@ export default {
     }
 
     const onOpenPicker = (item) => {
-      const { key, type } = item
+      const { key, type, columns } = item
       data.picker.show = true
       data.picker.key = key
       data.picker.type = type
+      data.picker.columns = columns
+      if (type) {
+        data.picker.columns = []
+      }
+      if (columns) {
+        data.picker.type = ''
+      }
     }
 
-    const onConfirmPicker = (key, val) => {
+    const onConfirmTimePicker = (key, val) => {
       if (typeof val === 'object') {
         val = val.toLocaleDateString()
       }
@@ -109,15 +131,23 @@ export default {
       data.picker.show = false
     }
 
+    // TODO: 选择器列表数据显示，选中后的回显，model绑定名称的统一
+    const onConfirmPicker = (key, val) => {
+      data.model[key] = val
+      data.picker.show = false
+    }
+    
     const onCancelPicker = () => {
       data.picker.show = false
       data.picker.key = ''
       data.picker.type = ''
+      data.picker.columns = []
     }
 
     return {
       ...dataAsRefs,
       onSubmit,
+      onConfirmTimePicker,
       onConfirmPicker,
       onCancelPicker,
       onOpenPicker,

@@ -16,6 +16,18 @@ export default function useForm() {
           cb()
         }
       }
+    ],
+    columns: [
+      {
+        validator: (rules, value, cb) => {
+          if (value && value.length !== 0) {
+            if (value.some(v => !v)) {
+              return cb(new Error('选项不能为空'))
+            }
+          }
+          cb()
+        }
+      }
     ]
   })
   return {

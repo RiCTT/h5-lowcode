@@ -34,6 +34,16 @@
           </div>
         </div>
       </el-form-item>
+      <el-form-item v-if="showColumnsOps" prop="columns" label="下拉列表">
+        <div class="columns-wrapper">
+          <div class="columns-input-wrapper" v-for="(item, index) in model.columns" :key="index">
+            <el-input v-model="model.columns[index]" size="small" placeholder="value" />
+          </div>
+          <div class="columns-btns">
+            <el-button size="small" type="primary" @click="handleAddColumn">添加选项</el-button>
+          </div>
+        </div>
+      </el-form-item>
       <el-form-item prop="placeholder" label="占位符">
         <el-input v-model="model.placeholder" placeholder="输入框的默认提示文本内容" />
       </el-form-item>
@@ -107,6 +117,11 @@ export default {
       return ui && ['van-checkbox-group'].includes(ui)
     })
 
+    const showColumnsOps = computed(() => {
+      const ui = model.value.ui
+      return ui && ['van-picker'].includes(ui)
+    })
+
     const onConfirm = () => {
       elForm.value.validate((valid) => {
         if (!valid) return console.error('[Valid Error]: valid failed')
@@ -128,6 +143,12 @@ export default {
         label: ''
       })
     }
+    const handleAddColumn = () => {
+      if (!model.value.columns) {
+        model.value.columns = []
+      }
+      model.value.columns.push('')
+    }
 
     return {
       dialogVisible,
@@ -139,8 +160,10 @@ export default {
       isCreate,
       showTypePicker,
       handleAddChoice,
+      handleAddColumn,
       elForm,
-      showChoiceOps
+      showChoiceOps,
+      showColumnsOps
     }
   }
 }
@@ -164,13 +187,27 @@ export default {
   .choice-input-wrapper {
     display: flex;
     align-items: center;
-
+  
     .chocie-splitline {
       margin: 0 20px;
     }
   }
 
   .choice-btns {
+    text-align: right;
+  }
+}
+
+.columns-wrapper {
+  display: flex;
+  flex-direction: column;
+  .columns-input-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+
+  .columns-btns {
     text-align: right;
   }
 }
