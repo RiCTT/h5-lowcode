@@ -10,6 +10,8 @@ Object.keys(modules).forEach((key) => {
 })
 
 export const state = toRefs(reactive({
+  dragging: false,
+  dragItem: {}, // 拖拽中的信息
   templateList,
   editComponentList: [], // 编辑区域当前所有组件
   currentSelectComponent: {

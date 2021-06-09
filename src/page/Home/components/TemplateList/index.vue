@@ -1,6 +1,6 @@
 <template>
   <div class="component-list">
-    <div draggable="true" :data-id="item.name" @dragstart="onDragStart" class="component-item" v-for="item in templateList" :key="item.name">
+    <div draggable="true" :data-id="item.name" @dragstart="onDragStart(item, $event)" class="component-item" v-for="item in templateList" :key="item.name">
       <span class="item-thumbnail"></span>
       <span class="item-name">{{item.name}}</span>
     </div>
@@ -9,14 +9,24 @@
 
 <script>
 import { state } from '../../store/index.js'
+const DROP_TYPE = {
+  CREATE: 10,
+  SWITCH_POSITION: 20
+}
 
 export default {
   setup() {
-    const { templateList } = state
-    const onDragStart = (e) => {
-      const { id } = e.target.dataset
-      e.dataTransfer.setData('Text', id)
+    const { templateList, dragItem } = state
+    const onDragStart = (item, e) => {
+      console.log(item)
+      item.dropType = DROP_TYPE.CREATE
+      item.id = item.name
+      dragItem.value = item
+      // const { id } = e.target.dataset
+      // e.dataTransfer.setData('Text', id)
+      // e.dataTransfer.setData('DropType', DROP_TYPE.CREATE)
     }
+
     return {
       templateList,
       onDragStart

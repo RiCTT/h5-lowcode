@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 export default {
   setup() {
     const componentList = ref([])
@@ -16,6 +16,12 @@ export default {
       const data = JSON.parse(message.data)
       componentList.value = data
     }, false);
+
+    onMounted(() => {
+      if (window.top !== window) {
+        window.top.postMessage("message from child !")
+      }
+    })
 
     return {
       componentList,
